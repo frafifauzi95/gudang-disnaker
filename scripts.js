@@ -243,3 +243,4 @@ window.deleteItem = deleteItem;
     showSection("authSection");
   }
 })();
+
