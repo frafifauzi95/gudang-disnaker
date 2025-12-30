@@ -1,7 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const SUPABASE_URL = "https://XXXX.supabase.co";
-const SUPABASE_ANON_KEY = "PUBLIC_ANON_KEY_KAMU";
+const SUPABASE_URL = "https://vupoipqbvwloxdlyczfk.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1cG9pcHFidndsb3hkbHljemZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcwOTI3MDgsImV4cCI6MjA4MjY2ODcwOH0.L8PZ84YJr5ZadWqM-CjlUDv8XI6Z25mgcBZczZ5f-CY";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -219,3 +219,4 @@ window.deleteItem = deleteItem;
     showSection("authSection");
   }
 })();
+
