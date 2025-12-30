@@ -20,10 +20,32 @@ function showSection(id) {
 }
 
 function switchTab(tab) {
+  // hide all
   $("tabDashboard").style.display = "none";
   $("tabStock").style.display = "none";
-  if (tab === "dashboard") $("tabDashboard").style.display = "block";
-  if (tab === "stock") $("tabStock").style.display = "block";
+
+  // reset nav active
+  $("tabBtnDashboard")?.classList.remove("active");
+  $("tabBtnStock")?.classList.remove("active");
+  $("navEmployees")?.classList.remove("active");
+
+  // show selected
+  if (tab === "dashboard") {
+    $("tabDashboard").style.display = "block";
+    $("tabBtnDashboard").classList.add("active");
+  }
+
+  if (tab === "stock") {
+    $("tabStock").style.display = "block";
+    $("tabBtnStock").classList.add("active");
+  }
+
+  if (tab === "employees") {
+    // kalau kamu belum bikin section employees, ini cuma set active aja
+    $("navEmployees")?.classList.add("active");
+    // kalau nanti ada employeesSection:
+    // showSection("employeesSection");
+  }
 }
 window.switchTab = switchTab;
 
@@ -243,4 +265,5 @@ window.deleteItem = deleteItem;
     showSection("authSection");
   }
 })();
+
 
