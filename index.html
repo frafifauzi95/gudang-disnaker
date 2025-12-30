@@ -105,25 +105,18 @@
           </button>
         </div>
 
-        <ul class="nav nav-tabs mb-3">
-          <li class="nav-item">
-            <a class="nav-link active" href="#" onclick="switchTab('dashboard')"
-              >Dashboard</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" onclick="switchTab('stock')">Stok</a>
-          </li>
-          <li class="nav-item">
-            <a
-              id="navEmployees"
-              class="nav-link"
-              href="#"
-              onclick="switchTab('employees')"
-              >Karyawan</a
-            >
-          </li>
-        </ul>
+<ul class="nav nav-tabs mb-3">
+  <li class="nav-item">
+    <a id="tabBtnDashboard" class="nav-link active" href="#" onclick="switchTab('dashboard'); return false;">Dashboard</a>
+  </li>
+  <li class="nav-item">
+    <a id="tabBtnStock" class="nav-link" href="#" onclick="switchTab('stock'); return false;">Stok</a>
+  </li>
+  <li class="nav-item">
+    <a id="navEmployees" class="nav-link" href="#" onclick="switchTab('employees'); return false;">Karyawan</a>
+  </li>
+</ul>
+
 
         <!-- ===== DASHBOARD ===== -->
         <div id="tabDashboard">
@@ -243,4 +236,5 @@
     <script type="module" src="scripts.js"></script>
   </body>
 </html>
+
 
