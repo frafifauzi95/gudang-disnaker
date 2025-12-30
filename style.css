@@ -1,0 +1,33 @@
+body {
+    background-color: #ffffff; /* Latar putih */
+    font-family: 'Arial', sans-serif;
+}
+.header {
+    background-color: #ffeb3b; /* Aksen kuning */
+    color: #000;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.btn-primary {
+    background-color: #ffeb3b; /* Kuning untuk tombol utama */
+    border-color: #ffeb3b;
+    color: #000;
+}
+.btn-danger {
+    background-color: #f44336; /* Merah untuk hapus */
+    border-color: #f44336;
+}
+.table {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.form-control {
+    border-radius: 5px;
+}
