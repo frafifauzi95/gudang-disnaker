@@ -1,19 +1,19 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-console.log("SUPABASE_URL:", SUPABASE_URL);
 
 const SUPABASE_URL = "https://vupoipqbvwloxdlyczfk.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1cG9pcHFidndsb3hkbHljemZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcwOTI3MDgsImV4cCI6MjA4MjY2ODcwOH0.L8PZ84YJr5ZadWqM-CjlUDv8XI6Z25mgcBZczZ5f-CY";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// ===== STATE =====
 let currentUser = null;
 let profile = null;
 let stock = [];
 let history = [];
 
+// ===== HELPERS =====
 const $ = (id) => document.getElementById(id);
 
-// ================= UI =================
 function showSection(id) {
   document.querySelectorAll(".section").forEach(s => s.style.display = "none");
   $(id).style.display = "block";
@@ -32,15 +32,60 @@ function showAuth(mode) {
   $("registerCard").style.display = mode === "register" ? "block" : "none";
 }
 
-// ================= AUTH =================
+function genEmpId() {
+  return "EMP" + Math.floor(100000 + Math.random() * 900000);
+}
+
+// ===== AUTH UI SWITCH =====
 $("goRegister").onclick = e => { e.preventDefault(); showAuth("register"); };
 $("goLogin").onclick = e => { e.preventDefault(); showAuth("login"); };
 
+// ===== REGISTER (AUTO LOGIN + MODAL) =====
+$("registerForm").onsubmit = async (e) => {
+  e.preventDefault();
+
+  const name = $("regName").value.trim();
+  const position = $("regPosition").value.trim();
+  const password = $("regPassword").value;
+
+  const employee_id = genEmpId();
+  const email = `${employee_id}@local.app`;
+
+  // SIGN UP
+  const { error: signUpErr } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { name, position, employee_id }
+    }
+  });
+
+  if (signUpErr) return alert(signUpErr.message);
+
+  // AUTO LOGIN
+  const { error: signInErr } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+  if (signInErr) return alert(signInErr.message);
+
+  await afterLogin();
+
+  // SHOW MODAL INFO AKUN
+  $("modalEmpId").textContent = profile.employee_id;
+  $("modalName").textContent = profile.name;
+  $("modalRole").textContent = profile.role;
+
+  new bootstrap.Modal($("accountModal")).show();
+};
+
+// ===== LOGIN =====
 $("loginForm").onsubmit = async (e) => {
   e.preventDefault();
 
-  const email = `${$("loginEmployeeId").value}@local.app`; // mapping empid → email
+  const empid = $("loginEmployeeId").value.trim();
   const password = $("loginPassword").value;
+  const email = `${empid}@local.app`;
 
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return alert(error.message);
@@ -48,39 +93,18 @@ $("loginForm").onsubmit = async (e) => {
   await afterLogin();
 };
 
-$("registerForm").onsubmit = async (e) => {
-  e.preventDefault();
-
-  const name = $("regName").value;
-  const position = $("regPosition").value;
-  const password = $("regPassword").value;
-
-  const fakeEmail = crypto.randomUUID() + "@local.app";
-
-  const { error } = await supabase.auth.signUp({
-    email: fakeEmail,
-    password,
-    options: {
-      data: { name, position }
-    }
-  });
-
-  if (error) return alert(error.message);
-
-  alert("Akun berhasil dibuat. Silakan login.");
-  showAuth("login");
-};
-
-// ================= SESSION =================
+// ===== AFTER LOGIN =====
 async function afterLogin() {
   const { data } = await supabase.auth.getUser();
   currentUser = data.user;
 
-  const { data: prof } = await supabase
+  const { data: prof, error } = await supabase
     .from("profiles")
     .select("*")
     .eq("user_id", currentUser.id)
     .single();
+
+  if (error) return alert("Gagal load profile");
 
   profile = prof;
 
@@ -88,21 +112,23 @@ async function afterLogin() {
   switchTab("dashboard");
 
   if (profile.role !== "admin") {
-    $("navEmployees").style.display = "none";
+    const navEmp = $("navEmployees");
+    if (navEmp) navEmp.style.display = "none";
   }
 
   await loadAll();
 }
 
+// ===== LOGOUT =====
 $("logoutBtn").onclick = async () => {
   await supabase.auth.signOut();
   currentUser = null;
   profile = null;
-  showAuth("login");
   showSection("authSection");
+  showAuth("login");
 };
 
-// ================= DATA =================
+// ===== LOAD DATA =====
 async function loadAll() {
   const { data: s } = await supabase.from("stock").select("*").order("name");
   const { data: h } = await supabase
@@ -119,6 +145,7 @@ async function loadAll() {
   updateDashboard();
 }
 
+// ===== DASHBOARD =====
 function updateDashboard() {
   $("totalItems").textContent = stock.length;
   $("totalQty").textContent = stock.reduce((a, b) => a + b.quantity, 0);
@@ -128,15 +155,16 @@ function updateDashboard() {
       new Date(b.updated_at) > new Date(a.updated_at) ? b : a
     );
     $("lastUpdate").textContent = new Date(last.updated_at).toLocaleString("id-ID");
-    $("lastUpdateBy").textContent = last.updated_by || "-";
+    $("lastUpdateBy").textContent = profile.name;
   }
 }
 
+// ===== RENDER =====
 function renderStock() {
   $("stockTable").innerHTML = "";
   $("removeItemName").innerHTML = "<option value=''>Pilih Barang</option>";
 
-  stock.forEach((s, i) => {
+  stock.forEach(s => {
     $("stockTable").innerHTML += `
       <tr>
         <td>${s.name}</td>
@@ -149,7 +177,6 @@ function renderStock() {
         }</td>
       </tr>
     `;
-
     $("removeItemName").innerHTML += `<option value="${s.name}">${s.name}</option>`;
   });
 }
@@ -169,39 +196,35 @@ function renderHistory() {
   });
 }
 
-// ================= STOCK ACTION =================
+// ===== STOCK ACTION =====
 $("addForm").onsubmit = async (e) => {
   e.preventDefault();
+
   const name = $("itemName").value;
   const qty = Number($("quantity").value);
 
-  const { error } = await supabase.rpc("stock_in", {
-    p_name: name,
-    p_qty: qty
-  });
-
+  const { error } = await supabase.rpc("stock_in", { p_name: name, p_qty: qty });
   if (error) return alert(error.message);
+
   e.target.reset();
   loadAll();
 };
 
 $("removeForm").onsubmit = async (e) => {
   e.preventDefault();
+
   const name = $("removeItemName").value;
   const qty = Number($("removeQuantity").value);
 
-  const { error } = await supabase.rpc("stock_out", {
-    p_name: name,
-    p_qty: qty
-  });
-
+  const { error } = await supabase.rpc("stock_out", { p_name: name, p_qty: qty });
   if (error) return alert(error.message);
+
   e.target.reset();
   loadAll();
 };
 
 async function deleteItem(name) {
-  if (!confirm("Hapus item ini?")) return;
+  if (!confirm("Hapus barang ini?")) return;
 
   const { error } = await supabase.rpc("stock_delete", { p_name: name });
   if (error) return alert(error.message);
@@ -210,7 +233,7 @@ async function deleteItem(name) {
 }
 window.deleteItem = deleteItem;
 
-// ================= INIT =================
+// ===== INIT =====
 (async () => {
   const { data } = await supabase.auth.getSession();
   if (data.session) {
@@ -220,5 +243,3 @@ window.deleteItem = deleteItem;
     showSection("authSection");
   }
 })();
-
-
