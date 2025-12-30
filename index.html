@@ -12,6 +12,32 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- MODAL INFO AKUN -->
+<div class="modal fade" id="accountModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Akun berhasil dibuat</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-2">Simpan info ini untuk login:</p>
+        <div class="border rounded p-3">
+          <div><b>Employee ID:</b> <span id="modalEmpId">-</span></div>
+          <div><b>Nama:</b> <span id="modalName">-</span></div>
+          <div><b>Role:</b> <span id="modalRole">-</span></div>
+        </div>
+        <small class="text-muted d-block mt-2">Password tidak ditampilkan. Gunakan password yang kamu buat.</small>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="modalGoDashboard" class="btn btn-primary" data-bs-dismiss="modal">
+          Masuk Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
     <!-- ================= AUTH ================= -->
     <div id="authSection" class="section" style="display: block">
       <div class="container mt-5" style="max-width: 520px">
@@ -217,3 +243,4 @@
     <script type="module" src="scripts.js"></script>
   </body>
 </html>
+
