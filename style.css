@@ -1,0 +1,442 @@
+:root {
+  --bg: #0b1220;
+  --card: rgba(255, 255, 255, 0.06);
+  --card2: rgba(255, 255, 255, 0.08);
+  --text: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.65);
+  --border: rgba(255, 255, 255, 0.12);
+
+  --brand: #ff7a18; /* OREN */
+  --brand2: #ffb36b; /* OREN SOFT */
+  --danger: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(
+      1200px 600px at 20% 0%,
+      rgba(255, 122, 24, 0.22),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at 90% 20%,
+      rgba(255, 179, 107, 0.18),
+      transparent 60%
+    ),
+    var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+    sans-serif;
+}
+
+a {
+  color: var(--brand2);
+}
+a:hover {
+  color: var(--brand);
+}
+
+.container {
+  max-width: 1100px;
+}
+
+/* ===== Bootstrap text colors (fix tidak kebaca) ===== */
+.text-muted,
+small.text-muted,
+.text-secondary,
+.text-body-secondary {
+  color: var(--muted) !important;
+}
+
+/* ===== Card ===== */
+.card {
+  background: linear-gradient(180deg, var(--card2), var(--card));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== Form ===== */
+.form-control,
+select.form-control {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 12px;
+}
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+.form-control:focus {
+  border-color: rgba(255, 122, 24, 0.55);
+  box-shadow: 0 0 0 0.2rem rgba(255, 122, 24, 0.18);
+}
+
+/* ===== Tabs ===== */
+.nav-tabs {
+  border-bottom: 1px solid var(--border);
+}
+.nav-tabs .nav-link {
+  border: 0;
+  color: var(--muted);
+  font-weight: 700;
+  border-radius: 12px;
+}
+.nav-tabs .nav-link.active {
+  background: rgba(255, 122, 24, 0.18);
+  color: var(--text);
+}
+
+/* ===== Buttons ===== */
+.btn-primary {
+  background: linear-gradient(180deg, var(--brand), #ff5f00);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #111;
+  font-weight: 800;
+}
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-outline-secondary {
+  border-color: var(--border);
+  color: var(--text);
+}
+.btn-outline-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.btn-danger {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #ffe0e0;
+}
+.btn-success {
+  background: rgba(34, 197, 94, 0.18);
+  border-color: rgba(34, 197, 94, 0.35);
+  color: #d7ffe6;
+}
+.btn-warning {
+  background: rgba(255, 122, 24, 0.18);
+  border-color: rgba(255, 122, 24, 0.35);
+  color: #ffe6d2;
+}
+
+/* ===== Badge ===== */
+.badge.bg-success {
+  background: rgba(34, 197, 94, 0.22) !important;
+}
+.badge.bg-secondary {
+  background: rgba(148, 163, 184, 0.22) !important;
+}
+
+/* ===== Table (STABIL untuk dark theme) ===== */
+.table {
+  /* override variabel bootstrap supaya warna tidak "lompat-lompat" */
+  --bs-table-color: var(--text);
+  --bs-table-bg: transparent;
+
+  --bs-table-border-color: var(--border);
+
+  --bs-table-striped-color: var(--text);
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+
+  --bs-table-active-color: var(--text);
+  --bs-table-active-bg: rgba(255, 122, 24, 0.1);
+
+  --bs-table-hover-color: var(--text);
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.06);
+
+  color: var(--text) !important;
+  border-color: var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.table thead th {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-weight: 800;
+  border-color: var(--border);
+}
+
+.table tbody td,
+.table tbody th {
+  color: var(--text) !important;
+  border-color: var(--border);
+}
+
+/* HAPUS rule manual striped yang bikin tabrakan:
+.table-striped > tbody > tr:nth-of-type(odd) > * { ... }
+Bootstrap sudah handle via --bs-table-striped-bg
+*/
+
+/* ===== Toast ===== */
+.toast {
+  background: rgba(11, 18, 32, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 14px;
+}
+.toast-header {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ===== Loading blur ===== */
+body.loading {
+  overflow: hidden;
+}
+body.loading #dashboardSection,
+body.loading #authSection {
+  pointer-events: none;
+  user-select: none;
+  filter: blur(1.5px);
+}
+
+/* ===== Profile dropdown ===== */
+.profile-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 10px;
+  display: inline-grid;
+  place-items: center;
+  font-weight: 900;
+  background: rgba(255, 122, 24, 0.2);
+  border: 1px solid rgba(255, 122, 24, 0.35);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.dropdown-menu {
+  background: rgba(11, 18, 32, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.dropdown-item {
+  color: rgba(255, 255, 255, 0.88);
+}
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.95);
+}
+.dropdown-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* ===== Sortable header (PAKAI BUTTON) ===== */
+.th-sort-btn {
+  all: unset;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  cursor: pointer;
+  user-select: none;
+
+  color: inherit;
+  font-weight: 700;
+}
+
+.th-sort-btn:hover {
+  color: var(--brand);
+}
+
+.th-sort-btn .sort-icon {
+  font-size: 0.7rem;
+  opacity: 0.75;
+}
+
+.th-sort-btn.active {
+  color: var(--brand);
+  font-weight: 900;
+}
+
+.th-sort-btn:focus,
+.th-sort-btn:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Optional: hover halus 1 kolom header */
+.table thead th:hover {
+  background: rgba(255, 122, 24, 0.08);
+}
+/* ===== FIX: teks bootstrap yang terlalu gelap di tema gelap ===== */
+.text-dark,
+.text-body,
+.text-body-emphasis,
+.text-black,
+.text-black-50,
+.text-secondary,
+.text-body-secondary {
+  color: var(--text) !important;
+}
+
+.card .text-muted,
+.card small.text-muted {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* angka besar di kartu statistik (kalau kepake class bootstrap) */
+.card h1,
+.card h2,
+.card h3,
+.card h4,
+.card .display-1,
+.card .display-2,
+.card .display-3,
+.card .display-4,
+.card .fw-bold,
+.card .fw-semibold {
+  color: var(--text) !important;
+}
+/* ===== DARK MODAL THEME ===== */
+.modal-content {
+  background: rgba(11, 18, 32, 0.92) !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.55) !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.modal-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.modal-title {
+  color: var(--text) !important;
+}
+
+.modal-backdrop.show {
+  opacity: 0.65 !important;
+}
+
+/* input di dalam modal ikut dark */
+.modal .form-control,
+.modal select.form-control {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+::placeholder {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background: rgba(255, 255, 255, 0.04) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ===== Fix input jadi putih (focus/autofill) ===== */
+input.form-control,
+select.form-control,
+textarea.form-control,
+.form-control {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: var(--text) !important;
+  border-color: rgba(255, 122, 24, 0.55) !important;
+  box-shadow: 0 0 0 0.2rem rgba(255, 122, 24, 0.18) !important;
+}
+
+/* Chrome autofill bikin putih/kuning -> paksa dark */
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: var(--text) !important;
+  -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.06) inset !important;
+  box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.06) inset !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* ===== Fix teks kecil/hint di modal biar kebaca ===== */
+.modal-content .text-muted,
+.modal-content small,
+.modal-content .small {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+/* ===== Fix dropdown select popup (option list) ===== */
+select.form-control,
+select.form-control:focus {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: var(--text) !important;
+}
+
+select.form-control option {
+  background: #0b1220 !important; /* solid biar gak putih */
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* beberapa browser pakai optgroup */
+select.form-control optgroup {
+  background: #0b1220 !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* ===== Fix teks hint "Stok saat ini" di modal ===== */
+#quickStockHint,
+.modal-content #quickStockHint,
+.modal-content .hint,
+.modal-content .help-text {
+  color: rgba(255, 255, 255, 0.78) !important;
+  opacity: 1 !important;
+}
+
+/* ===== FIX HEADING (h5, h6, card title) BIAR KEBACA ===== */
+h5,
+h6,
+.card-title,
+.card h5,
+.card h6 {
+  color: var(--text) !important;
+  opacity: 1 !important;
+}
+
+/* kalau ada class bootstrap yang bikin redup */
+.fw-semibold,
+.fw-medium {
+  color: var(--text) !important;
+}
+
+/* khusus heading kecil di card (kadang pakai text-muted) */
+.card .text-muted,
+.card small,
+.card .small {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+/* ===== Auth footer (Belum punya akun? Daftar) ===== */
+#authSection .text-center {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+#authSection .text-center a,
+#goRegister,
+#goLogin {
+  color: var(--brand2) !important;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+#authSection .text-center a:hover,
+#goRegister:hover,
+#goLogin:hover {
+  color: var(--brand) !important;
+  text-decoration: underline;
+}
